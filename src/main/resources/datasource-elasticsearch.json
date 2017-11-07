@@ -1,0 +1,16 @@
+{
+  "orgId": 1,
+  "name": "$NAME",
+  "type": "elasticsearch",
+  "typeLogoUrl": "public/app/plugins/datasource/elasticsearch/img/elasticsearch.svg",
+  "access": "proxy",
+  "url": "http://localhost:9200",
+  "password": "",
+  "user": "",
+  "database": "$INDEX",
+  "basicAuth": false,
+  "isDefault": true,
+  "jsonData": {
+    "timeField": "$TIMEFIELD"
+  }
+}
