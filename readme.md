@@ -1,7 +1,7 @@
 # Spring Boot Docker Spotify
 
-[![Version](https://img.shields.io/badge/Spring%20Boot%20Docker%20Spotify-0.3-blue.svg)](https://github.com/hekonsek/spring-boot-docker-spotify/releases)
-[![Build](https://api.travis-ci.org/hekonsek/spring-boot-docker-spotify.svg)](https://travis-ci.org/hekonsek/spring-boot-docker-spotify)
+[![Version](https://img.shields.io/badge/Grafana%20Java-0.0-blue.svg)](https://github.com/hekonsek/grafana-java/releases)
+[![Build](https://api.travis-ci.org/hekonsek/grafana-java.svg)](https://travis-ci.org/hekonsek/grafana-java)
 
 **Spring Boot Docker Spotify** provides template around [Spotify Docker client](https://github.com/spotify/docker-client) simplifying common
 operations over Docker containers.
