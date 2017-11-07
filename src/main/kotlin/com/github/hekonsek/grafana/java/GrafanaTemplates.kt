@@ -15,5 +15,10 @@ class GrafanaTemplates {
             fromJson(javaClass.getResourceAsStream("/datasource-graphite.json").readBytes())
                     .plus(Pair("name", name)).plus(Pair("url", url))
 
+    fun emptyDashboard(title: String): Map<String, Any> {
+        val dashboard = fromJson(javaClass.getResourceAsStream("/dashboard.json").readBytes())
+        val dashboardDefinition = dashboard["dashboard"] as Map<String, Any>
+        return dashboard.plus(Pair("dashboard", dashboardDefinition.plus(Pair("title", title))))
+    }
 
 }

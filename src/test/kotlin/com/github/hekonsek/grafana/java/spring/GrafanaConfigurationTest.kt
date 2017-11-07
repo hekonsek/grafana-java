@@ -94,4 +94,19 @@ open class GrafanaConfigurationTest {
         assertThat(fetchedDataSource).isNotNull
     }
 
+    // Data source operations tests
+
+    @Test
+    fun shouldCreateDashboard() {
+        // Given
+        val dashboard = grafanaTemplates.emptyDashboard(name)
+
+        // When
+        val id = grafana.saveDashboard(dashboard)
+
+        // Then
+        val fetchedDashboard = grafana.readDashboard(id)
+        assertThat(fetchedDashboard).isNotNull
+    }
+
 }
