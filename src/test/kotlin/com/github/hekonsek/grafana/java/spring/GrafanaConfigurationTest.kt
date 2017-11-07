@@ -27,9 +27,11 @@ open class GrafanaConfigurationTest {
     lateinit var grafanaTemplates : GrafanaTemplates
 
 
-    var name = randomUUID().toString()
+    val name = randomUUID().toString()
 
-    var index = randomUUID().toString()
+    val index = randomUUID().toString()
+
+    val timestampField = randomUUID().toString()
 
     @Bean
     open fun grafanaContainer() : NamedContainer {
@@ -38,10 +40,25 @@ open class GrafanaConfigurationTest {
         return NamedContainer("grafana", containerConfig, HttpReadinessProbe("http://localhost:3000"))
     }
 
+    // Data source operations tests
+
     @Test
     fun shouldCreateElasticSearchDataSource() {
         // Given
-        val dataSource = grafanaTemplates.elasticSearchDataSource(name, index, "@timestamp")
+        val dataSource = grafanaTemplates.elasticSearchDataSource(name, index, timestampField)
+
+        // When
+        grafana.saveDataSource(dataSource)
+
+        // Then
+        val fetchedDataSource = grafana.listDataSources().find { it["name"] == name }
+        assertThat(fetchedDataSource).isNotNull
+    }
+
+    @Test
+    fun shouldReadElasticSearchDataSource() {
+        // Given
+        val dataSource = grafanaTemplates.elasticSearchDataSource(name, index, timestampField)
 
         // When
         grafana.saveDataSource(dataSource)
@@ -54,15 +71,27 @@ open class GrafanaConfigurationTest {
     @Test
     fun shouldDeleteElasticSearchDataSource() {
         // Given
-        val dataSource = grafanaTemplates.elasticSearchDataSource(name, index, "@timestamp")
+        val dataSource = grafanaTemplates.elasticSearchDataSource(name, index, timestampField)
         val id = grafana.saveDataSource(dataSource)
 
         // When
-        grafana.deleteDataSource(id)
+        val fetchedDataSource = grafana.readDataSource(id)
 
         // Then
-        val fetchedDataSource = grafana.listDataSources().find { it["name"] == name }
-        assertThat(fetchedDataSource).isNull()
+        assertThat(fetchedDataSource).isNotNull
+    }
+
+    @Test
+    fun shouldCreateGraphiteDataSource() {
+        // Given
+        val dataSource = grafanaTemplates.graphiteDataSource(name, "http://localhost:1234")
+
+        // When
+        val id = grafana.saveDataSource(dataSource)
+
+        // Then
+        val fetchedDataSource = grafana.readDataSource(id)
+        assertThat(fetchedDataSource).isNotNull
     }
 
 }

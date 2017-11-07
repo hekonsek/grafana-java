@@ -8,7 +8,6 @@ import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.create
-import java.nio.charset.Charset
 
 class Grafana(val authentication: Authentication, val url: String = "http://localhost:3000/api") {
 
@@ -29,6 +28,13 @@ class Grafana(val authentication: Authentication, val url: String = "http://loca
 
     fun read(type: String) : Map<String, Any> {
         val request = Request.Builder().get().url("${url}/${type}").build()
+        http.newCall(request).execute().use { response ->
+            return fromJson(response.body()?.bytes()!!)
+        }
+    }
+
+    fun read(type: String, id : Int) : Map<String, Any> {
+        val request = Request.Builder().get().url("${url}/${type}/$id").build()
         http.newCall(request).execute().use { response ->
             return fromJson(response.body()?.bytes()!!)
         }
@@ -68,9 +74,11 @@ class Grafana(val authentication: Authentication, val url: String = "http://loca
 
     fun saveDataSource(dataSource: Map<String, Any>) = create(dataSourcesEntityType, dataSource)
 
-    fun deleteDataSource(id: Int) = delete(dataSourcesEntityType, id)
+    fun readDataSource(id: Int): Map<String, Any> = read(dataSourcesEntityType, id)
 
     fun listDataSources() : List<Map<String, Any>> = readList(dataSourcesEntityType)
+
+    fun deleteDataSource(id: Int) = delete(dataSourcesEntityType, id)
 
 }
 
