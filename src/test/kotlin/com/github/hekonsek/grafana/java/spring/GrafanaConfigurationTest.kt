@@ -1,7 +1,8 @@
 package com.github.hekonsek.grafana.java.spring
 
 import com.github.hekonsek.grafana.java.Grafana
-import com.github.hekonsek.grafana.java.GrafanaTemplates
+import com.github.hekonsek.grafana.java.model.Dashboard.Companion.emptyDashboard
+import com.github.hekonsek.grafana.java.model.GrafanaModelTemplates
 import com.github.hekonsek.spring.boot.docker.spotify.HttpReadinessProbe
 import com.github.hekonsek.spring.boot.docker.spotify.NamedContainer
 import com.github.hekonsek.spring.boot.docker.spotify.SpotifyDockerAutoConfiguration
@@ -23,9 +24,7 @@ open class GrafanaConfigurationTest {
     @Autowired
     lateinit var grafana : Grafana
 
-    @Autowired
-    lateinit var grafanaTemplates : GrafanaTemplates
-
+    val modelTemplates = GrafanaModelTemplates()
 
     val name = randomUUID().toString()
 
@@ -45,7 +44,7 @@ open class GrafanaConfigurationTest {
     @Test
     fun shouldCreateElasticSearchDataSource() {
         // Given
-        val dataSource = grafanaTemplates.elasticSearchDataSource(name, index, timestampField)
+        val dataSource = modelTemplates.elasticSearchDataSource(name, index, timestampField)
 
         // When
         grafana.saveDataSource(dataSource)
@@ -58,7 +57,7 @@ open class GrafanaConfigurationTest {
     @Test
     fun shouldReadElasticSearchDataSource() {
         // Given
-        val dataSource = grafanaTemplates.elasticSearchDataSource(name, index, timestampField)
+        val dataSource = modelTemplates.elasticSearchDataSource(name, index, timestampField)
 
         // When
         grafana.saveDataSource(dataSource)
@@ -71,7 +70,7 @@ open class GrafanaConfigurationTest {
     @Test
     fun shouldDeleteElasticSearchDataSource() {
         // Given
-        val dataSource = grafanaTemplates.elasticSearchDataSource(name, index, timestampField)
+        val dataSource = modelTemplates.elasticSearchDataSource(name, index, timestampField)
         val id = grafana.saveDataSource(dataSource)
 
         // When
@@ -84,7 +83,7 @@ open class GrafanaConfigurationTest {
     @Test
     fun shouldCreateGraphiteDataSource() {
         // Given
-        val dataSource = grafanaTemplates.graphiteDataSource(name, "http://localhost:1234")
+        val dataSource = modelTemplates.graphiteDataSource(name, "http://localhost:1234")
 
         // When
         val id = grafana.saveDataSource(dataSource)
@@ -94,19 +93,36 @@ open class GrafanaConfigurationTest {
         assertThat(fetchedDataSource).isNotNull
     }
 
-    // Data source operations tests
+    // Dashboard operations tests
 
     @Test
     fun shouldCreateDashboard() {
         // Given
-        val dashboard = grafanaTemplates.emptyDashboard(name)
+        val dashboard = emptyDashboard(name)
 
         // When
         val id = grafana.saveDashboard(dashboard)
 
         // Then
         val fetchedDashboard = grafana.readDashboard(id)
-        assertThat(fetchedDashboard).isNotNull
+        assertThat(fetchedDashboard).isNotNull()
+    }
+
+    @Test
+    fun shouldAddRowToExistingDashboard() {
+        // Given
+        val dashboard = emptyDashboard(name)
+        val id = grafana.saveDashboard(dashboard)
+        var fetchedDashboard = grafana.readDashboard(id)
+
+        // When
+        val row = modelTemplates.dashboardRowWithGraph(name)
+        fetchedDashboard.rows.add(row)
+        grafana.saveDashboard(fetchedDashboard)
+
+        // Then
+        fetchedDashboard = grafana.readDashboard(id)
+        assertThat(fetchedDashboard.rows).hasSize(1)
     }
 
 }

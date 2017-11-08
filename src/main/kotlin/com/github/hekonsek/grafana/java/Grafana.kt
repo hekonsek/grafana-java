@@ -1,5 +1,7 @@
 package com.github.hekonsek.grafana.java
 
+import com.github.hekonsek.grafana.java.model.Dashboard
+import com.github.hekonsek.grafana.java.model.Dashboard.Companion.parseDashboard
 import json4dummies.Json
 import json4dummies.Json.Companion.fromJson
 import json4dummies.Json.Companion.toJson
@@ -85,9 +87,11 @@ class Grafana(val authentication: Authentication, val url: String = "http://loca
 
     // Dashboard operations
 
-    fun saveDashboard(dashboard: Map<String, Any>): String = create(dashboardsEntityType, dashboard)
+    fun saveDashboard(dashboard: Dashboard): String =
+            create(dashboardsEntityType, dashboard.model())
 
-    fun readDashboard(slug: String): Map<String, Any> = read(dashboardsEntityType, slug)
+    fun readDashboard(slug: String): Dashboard
+        = parseDashboard(read(dashboardsEntityType, slug))
 
 }
 
