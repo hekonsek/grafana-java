@@ -3,6 +3,8 @@ package com.github.hekonsek.grafana.java.spring
 import com.github.hekonsek.grafana.java.Grafana
 import com.github.hekonsek.grafana.java.model.Dashboard.Companion.emptyDashboard
 import com.github.hekonsek.grafana.java.model.GrafanaModelTemplates
+import com.github.hekonsek.grafana.java.model.Graph
+import com.github.hekonsek.grafana.java.model.GraphTarget
 import com.github.hekonsek.grafana.java.model.Row.Companion.rowWithGraph
 import com.github.hekonsek.spring.boot.docker.spotify.HttpReadinessProbe
 import com.github.hekonsek.spring.boot.docker.spotify.NamedContainer
@@ -124,6 +126,26 @@ open class GrafanaConfigurationTest {
         // Then
         fetchedDashboard = grafana.readDashboard(id)
         assertThat(fetchedDashboard.rows).hasSize(1)
+    }
+
+    @Test
+    fun shouldAddTargetToGraph() {
+        // Given
+        val dashboard = emptyDashboard(name)
+        val id = grafana.saveDashboard(dashboard)
+        var fetchedDashboard = grafana.readDashboard(id)
+        val row = rowWithGraph(name)
+        fetchedDashboard.rows.add(row)
+        var graph = fetchedDashboard.rows.first().panels.first() as Graph
+        graph.targets.add(GraphTarget.newGraphTarget(name, name))
+
+        // When
+        grafana.saveDashboard(fetchedDashboard)
+
+        // Then
+        fetchedDashboard = grafana.readDashboard(id)
+        graph = fetchedDashboard.rows.first().panels.first() as Graph
+        assertThat(graph.targets).hasSize(1)
     }
 
 }
