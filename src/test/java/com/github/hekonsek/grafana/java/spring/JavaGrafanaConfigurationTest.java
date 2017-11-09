@@ -7,9 +7,9 @@ import com.github.hekonsek.grafana.java.model.Graph;
 import com.github.hekonsek.grafana.java.model.Row;
 import com.github.hekonsek.spring.boot.docker.spotify.HttpReadinessProbe;
 import com.github.hekonsek.spring.boot.docker.spotify.NamedContainer;
+import com.github.hekonsek.spring.boot.docker.spotify.SpotifyDockerAutoConfiguration;
 import com.spotify.docker.client.messages.ContainerConfig;
 import com.spotify.docker.client.messages.HostConfig;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import static com.github.hekonsek.grafana.java.model.Row.rowWithGraph;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {GrafanaConfiguration.class, JavaGrafanaConfigurationTest.class})
+@SpringBootTest(classes = {GrafanaConfiguration.class, SpotifyDockerAutoConfiguration.class, JavaGrafanaConfigurationTest.class})
 public class JavaGrafanaConfigurationTest {
 
     @Autowired
