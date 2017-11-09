@@ -7,44 +7,32 @@
 
 ## Maven setup
 
-I highly recommend to import spring-boot-docker-spotify BOM instead of Spring Boot BOM. Otherwise Jersey version defined in Spring Boot BOM will conflict 
-with Jersey version used by Spotify Docker Client. spring-boot-docker-spotify BOM imports Spring Boot BOM on your behalf, but downgrades Jersey.
-
-```
-<dependencyManagement>
-  <dependencies>
     <dependency>
       <groupId>com.github.hekonsek</groupId>
-      <artifactId>spring-boot-docker-spotify</artifactId>
-      <version>0.3</version>
-      <type>pom</type>
-      <scope>import</scope>
-    </dependency>
-</dependencyManagement>
-```
-
-Then add an actual spring-boot-docker-spotify jar into your classpath:
-
-    <dependency>
-      <groupId>com.github.hekonsek</groupId>
-      <artifactId>spring-boot-docker-spotify</artifactId>
-      <version>0.3</version>
+      <artifactId>grafana-java</artifactId>
+      <version>0.0</version>
     </dependency>
 
-## Injecting Docker template
+## Usage
 
-In order to use Docker template, just inject it into your bean of choice:
-
-```
-@Autowired
-DockerTemplate dockerTemplate;
-```
-
-## Docker template operations
-
-Executing Docker container and returning stdout+stderr as a list of Strings:
+First of all create Grafana client instance:
 
 ```
-ContainerConfig container = ContainerConfig.builder().image("fedora:26").cmd("echo", "foo").build();
-List<String> output = dockerTemplate.execute(container);
+Grafana grafana = new Grafana(new BasicAuthentication("admin", "admin"));
+```
+
+Then create dashboard you would like to save:
+
+```
+Dashboard dashboard = emptyDashboard(name);
+Row row = rowWithGraph(name);
+dashboard.getRows().add(row);
+Graph graph = (Graph) dashboard.getRows().get(0).getPanels().get(0);
+graph.getTargets().add(newGraphTarget(name, name));
+```
+
+And save it:
+
+```
+String dashboardId = grafana.saveDashboard(dashboard);
 ```

@@ -8,7 +8,6 @@ import com.github.hekonsek.grafana.java.model.GraphTarget
 import com.github.hekonsek.grafana.java.model.Row.Companion.rowWithGraph
 import com.github.hekonsek.spring.boot.docker.spotify.HttpReadinessProbe
 import com.github.hekonsek.spring.boot.docker.spotify.NamedContainer
-import com.github.hekonsek.spring.boot.docker.spotify.SpotifyDockerAutoConfiguration
 import com.spotify.docker.client.messages.ContainerConfig
 import com.spotify.docker.client.messages.HostConfig
 import org.assertj.core.api.Assertions.assertThat
@@ -21,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner
 import java.util.UUID.randomUUID
 
 @RunWith(SpringRunner::class)
-@SpringBootTest(classes = arrayOf(GrafanaConfiguration::class, SpotifyDockerAutoConfiguration::class, GrafanaConfigurationTest::class))
+@SpringBootTest(classes = arrayOf(GrafanaConfiguration::class, GrafanaConfigurationTest::class))
 open class GrafanaConfigurationTest {
 
     @Autowired

@@ -11,7 +11,10 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.create
 
-class Grafana(val authentication: Authentication, val url: String = "http://localhost:3000/api") {
+/**
+ * Java REST client for Grafana
+ */
+class Grafana @JvmOverloads constructor(val authentication: Authentication, val url: String = "http://localhost:3000/api") {
 
     private val json = MediaType.parse("application/json; charset=utf-8")
 

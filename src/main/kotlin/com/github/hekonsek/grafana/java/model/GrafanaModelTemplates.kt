@@ -1,6 +1,5 @@
 package com.github.hekonsek.grafana.java.model
 
-import com.github.hekonsek.grafana.java.model.Panel.Companion.parsePanel
 import json4dummies.Json.Companion.fromJson
 
 class GrafanaModelTemplates {

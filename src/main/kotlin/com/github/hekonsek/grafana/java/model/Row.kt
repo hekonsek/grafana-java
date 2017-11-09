@@ -5,6 +5,8 @@ import json4dummies.Json
 class Row(val innerModel: MutableMap<String, Any>, val panels : MutableList<Panel> = mutableListOf()) {
 
     companion object {
+
+        @JvmStatic
         fun parseRow(model: Map<String, Any>) : Row {
             val innerModel = HashMap(model)
             val panels = (innerModel["panels"] as List<Map<String, Any>>).map { Panel.parsePanel(it.toMutableMap()) }.toMutableList()
@@ -12,6 +14,7 @@ class Row(val innerModel: MutableMap<String, Any>, val panels : MutableList<Pane
             return Row(innerModel, panels)
         }
 
+        @JvmStatic
         fun rowWithGraph(title: String): Row {
             val rowModel = Json.fromJson(javaClass.getResourceAsStream("/dashboard-row.json").readBytes()).toMutableMap()
             val panelModel = Json.fromJson(javaClass.getResourceAsStream("/dashboard-panel-graph.json").readBytes()).toMutableMap()
@@ -20,6 +23,7 @@ class Row(val innerModel: MutableMap<String, Any>, val panels : MutableList<Pane
             row.panels.first().title(title)
             return row
         }
+
     }
 
     fun model() : Map<String, Any> {
