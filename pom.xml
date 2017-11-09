@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <licenses>
         <license>
@@ -13,7 +12,7 @@
     <groupId>com.github.hekonsek</groupId>
     <artifactId>grafana-java</artifactId>
     <name>${project.artifactId}</name>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -107,7 +106,7 @@
                         <id>enforce</id>
                         <configuration>
                             <rules>
-                                <requireUpperBoundDeps/>
+                                <requireUpperBoundDeps />
                             </rules>
                         </configuration>
                         <goals>
@@ -300,7 +299,7 @@
         <connection>scm:git:git@github.com:hekonsek/grafana-java.git</connection>
         <developerConnection>scm:git:git@github.com:hekonsek/grafana-java.git</developerConnection>
         <url>git@github.com:hekonsek/grafana-java.git</url>
-        <tag>HEAD</tag>
+        <tag>grafana-java-0.1</tag>
     </scm>
 
     <distributionManagement>
