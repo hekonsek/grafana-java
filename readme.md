@@ -1,6 +1,6 @@
 # Grafana client for Java
 
-[![Version](https://img.shields.io/badge/Grafana%20Java-0.0-blue.svg)](https://github.com/hekonsek/grafana-java/releases)
+[![Version](https://img.shields.io/badge/Grafana%20Java-0.1-blue.svg)](https://github.com/hekonsek/grafana-java/releases)
 [![Build](https://api.travis-ci.org/hekonsek/grafana-java.svg)](https://travis-ci.org/hekonsek/grafana-java)
 
 **Grafana Java** provides Java client for [Grafana REST API](http://docs.grafana.org/http_api/).
@@ -10,7 +10,7 @@
     <dependency>
       <groupId>com.github.hekonsek</groupId>
       <artifactId>grafana-java</artifactId>
-      <version>0.0</version>
+      <version>0.1</version>
     </dependency>
 
 ## Usage
