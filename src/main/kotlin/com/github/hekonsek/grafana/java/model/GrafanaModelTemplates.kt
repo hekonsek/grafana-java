@@ -1,5 +1,6 @@
 package com.github.hekonsek.grafana.java.model
 
+import com.github.hekonsek.grafana.java.model.Panel.Companion.parsePanel
 import json4dummies.Json.Companion.fromJson
 
 class GrafanaModelTemplates {
@@ -18,9 +19,16 @@ class GrafanaModelTemplates {
         val rowModel = fromJson(javaClass.getResourceAsStream("/dashboard-row.json").readBytes()).toMutableMap()
         val panelModel = fromJson(javaClass.getResourceAsStream("/dashboard-panel-graph.json").readBytes()).toMutableMap()
 
-        val row = Row(rowModel, mutableListOf(Panel(panelModel)))
+        val row = Row(rowModel, mutableListOf(parsePanel(panelModel)))
         row.panels.first().title(title)
         return row
+    }
+
+    fun graphTarget(alias: String, dataSource: String): Target {
+        val targetModel = fromJson(javaClass.getResourceAsStream("/dashboard-target.json").readBytes()).toMutableMap()
+        targetModel["alias"] = alias
+        targetModel["datasource"] = dataSource
+        return Target.parseTarget(targetModel)
     }
 
 }
