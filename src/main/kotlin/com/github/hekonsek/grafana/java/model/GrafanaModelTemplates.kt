@@ -15,20 +15,4 @@ class GrafanaModelTemplates {
     fun graphiteDataSource(name: String, url: String): Map<String, Any> =
             fromJson(javaClass.getResourceAsStream("/datasource-graphite.json").readBytes()) + ("name" to name) + ("url" to url)
 
-    fun dashboardRowWithGraph(title: String): Row {
-        val rowModel = fromJson(javaClass.getResourceAsStream("/dashboard-row.json").readBytes()).toMutableMap()
-        val panelModel = fromJson(javaClass.getResourceAsStream("/dashboard-panel-graph.json").readBytes()).toMutableMap()
-
-        val row = Row(rowModel, mutableListOf(parsePanel(panelModel)))
-        row.panels.first().title(title)
-        return row
-    }
-
-    fun graphTarget(alias: String, dataSource: String): Target {
-        val targetModel = fromJson(javaClass.getResourceAsStream("/dashboard-target.json").readBytes()).toMutableMap()
-        targetModel["alias"] = alias
-        targetModel["datasource"] = dataSource
-        return Target.parseTarget(targetModel)
-    }
-
 }

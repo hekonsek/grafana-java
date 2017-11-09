@@ -1,6 +1,6 @@
 package com.github.hekonsek.grafana.java.model
 
-import com.github.hekonsek.grafana.java.model.Panel.Companion.parsePanel
+import com.github.hekonsek.grafana.java.model.Row.Companion.parseRow
 import json4dummies.Json
 
 class Dashboard(val innerModel: MutableMap<String, Any>, val rows : MutableList<Row> = mutableListOf()) {
@@ -31,19 +31,5 @@ class Dashboard(val innerModel: MutableMap<String, Any>, val rows : MutableList<
 
 }
 
-class Row(val innerModel: MutableMap<String, Any>, val panels : MutableList<Panel> = mutableListOf()) {
 
-    fun model() : Map<String, Any> {
-        val result = HashMap(innerModel)
-        result["panels"] = panels.map { it.model() }
-        return result
-    }
 
-}
-
-fun parseRow(model: Map<String, Any>) : Row {
-    val innerModel = HashMap(model)
-    val panels = (innerModel["panels"] as List<Map<String, Any>>).map { parsePanel(it.toMutableMap()) }.toMutableList()
-    innerModel.remove("panels")
-    return Row(innerModel, panels)
-}

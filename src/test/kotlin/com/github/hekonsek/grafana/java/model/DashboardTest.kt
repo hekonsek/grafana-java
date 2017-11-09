@@ -1,5 +1,6 @@
 package com.github.hekonsek.grafana.java.model
 
+import com.github.hekonsek.grafana.java.model.Row.Companion.rowWithGraph
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.util.*
@@ -16,12 +17,12 @@ class DashboardTest {
     fun shouldAddTargetToGraph() {
         // Given
         val dashboard = Dashboard.emptyDashboard(title)
-        val row = GrafanaModelTemplates().dashboardRowWithGraph(title)
+        val row = rowWithGraph(title)
         dashboard.rows.add(row)
         val graph = dashboard.rows.first().panels.first() as Graph
 
         // When
-        graph.targets.add(GrafanaModelTemplates().graphTarget(alias, datasource))
+        graph.targets.add(GraphTarget.newGraphTarget(alias, datasource))
 
         // Then
         val dashboardJson = dashboard.model()["dashboard"] as Map<String, Any>

@@ -3,6 +3,7 @@ package com.github.hekonsek.grafana.java.spring
 import com.github.hekonsek.grafana.java.Grafana
 import com.github.hekonsek.grafana.java.model.Dashboard.Companion.emptyDashboard
 import com.github.hekonsek.grafana.java.model.GrafanaModelTemplates
+import com.github.hekonsek.grafana.java.model.Row.Companion.rowWithGraph
 import com.github.hekonsek.spring.boot.docker.spotify.HttpReadinessProbe
 import com.github.hekonsek.spring.boot.docker.spotify.NamedContainer
 import com.github.hekonsek.spring.boot.docker.spotify.SpotifyDockerAutoConfiguration
@@ -116,7 +117,7 @@ open class GrafanaConfigurationTest {
         var fetchedDashboard = grafana.readDashboard(id)
 
         // When
-        val row = modelTemplates.dashboardRowWithGraph(name)
+        val row = rowWithGraph(name)
         fetchedDashboard.rows.add(row)
         grafana.saveDashboard(fetchedDashboard)
 
